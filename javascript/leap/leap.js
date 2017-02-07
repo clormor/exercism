@@ -3,14 +3,16 @@
 // convenience to get you started writing code faster.
 //
 
-var Year = function() {};
+var Year = function(year) {
+    this.year = year
+};
 
-Year.prototype.isLeap = function(input) {
-    if (input % 4 == 0) {
+Year.prototype.isLeap = function() {
+    if (this.year % 4 == 0) {
 
-        if (input % 100 == 0) {
+        if (this.year % 100 == 0) {
 
-            if (input % 400 == 0) {
+            if (this.year % 400 == 0) {
                 return true
             }
 
