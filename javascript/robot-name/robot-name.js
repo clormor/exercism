@@ -1,5 +1,5 @@
 
-var usedNames = []
+var usedNames = {}
 
 var Robot = function() {
     this.chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -14,9 +14,9 @@ Robot.prototype.reset = function() {
                 + Math.floor(Math.random() * 10)
                 + Math.floor(Math.random() * 10)
                 + Math.floor(Math.random() * 10)
-    } while(usedNames.includes(this.name))
+    } while(usedNames[this.name] == true)
 
-    usedNames.push(this.name)
+    usedNames[this.name] = true
 }
 
 module.exports = Robot
