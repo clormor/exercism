@@ -36,7 +36,7 @@ SpaceAge.prototype.onNeptune = function() {
 }
 
 SpaceAge.prototype.round = function(age) {
-    return Math.round(age * 100) / 100
+    return Number(age.toFixed(2))
 }
 
 module.exports = SpaceAge
