@@ -1,8 +1,8 @@
 """Module which counts words in a sentence, or string"""
 
-asciiA = ord('a')
-ascii0 = ord('0')
-asciiApostrophe = ord('\'')
+ascii_a = ord('a')
+ascii_0 = ord('0')
+ascii_apostrophe = ord('\'')
 state = {}
 
 
@@ -21,6 +21,30 @@ def init_state(sentence):
     })
 
 
+def is_letter(char):
+    """Determines if a character is a letter.
+
+    :char: char - a normalised (lowercase) charachter.
+    """
+    return ascii_a <= ord(char) < ascii_a + 26
+
+
+def is_digit(char):
+    """Determines if a character is a digit.
+
+    :char: char - a normalised (lowercase) charachter.
+    """
+    return ascii_0 <= ord(char) < ascii_0 + 10
+
+
+def is_apostrophe(char):
+    """Determines if a character is an apostrophe.
+
+    :char: char - a normalised (lowercase) charachter.
+    """
+    return ascii_apostrophe == ord(char)
+
+
 def count_words(sentence):
     """Counts the occurences of words in a string.
 
@@ -33,11 +57,11 @@ def count_words(sentence):
 
     init_state(sentence)
     for i, next_char in enumerate(state['sentence']):
-        if asciiA <= ord(next_char) < asciiA + 26:
+        if is_letter(next_char):
             visit_letter(i)
-        elif ascii0 <= ord(next_char) < ascii0 + 10:
+        elif is_digit(next_char):
             visit_digit(i)
-        elif ord(next_char) == asciiApostrophe:
+        elif is_apostrophe(next_char):
             visit_apostrophe(i)
         else:
             visit_non_word(i)
@@ -72,13 +96,10 @@ def visit_apostrophe(index):
     :index: int - the index of the apostrophe character in the state's sentence.
     """
     if state['in_word']:
-        if state['apostrophe']:
-            state.update({'in_word': False, 'apostrophe': False})
+        if index+1 < len(state['sentence']) and (is_letter(state['sentence'][index+1])):
+            state.update({'apostrophe': True})
         else:
-            if index+1 < len(state['sentence']) and (asciiA < ord(state['sentence'][index+1]) or ord(state['sentence'][index+1]) > asciiA + 26):
-                state.update({'apostrophe': True})
-            else:
-                add_word(index-1)
+            add_word(index-1)
 
 
 def visit_non_word(index):
@@ -101,3 +122,5 @@ def add_word(index):
     word_count = state['words'].get(word, 0) + 1
     state['words'].update({word: word_count})
     state.update({'in_word': False, 'in_number': False, 'apostrophe': False})
+
+count_words("can, can't, 'can't'")
