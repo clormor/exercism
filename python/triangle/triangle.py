@@ -9,6 +9,7 @@ def isosceles(sides):
 def scalene(sides):
     return triangle(sides) and len(set(sides)) == 3
 
+
 def triangle(sides):
     if 0 in sides:
         return False
