@@ -21,28 +21,28 @@ def init_state(sentence):
     })
 
 
-def is_letter(char):
+def is_letter(index):
     """Determines if a character is a letter.
 
     :char: char - a normalised (lowercase) charachter.
     """
-    return ascii_a <= ord(char) < ascii_a + 26
+    return ascii_a <= ord(state['sentence'][index]) < ascii_a + 26
 
 
-def is_digit(char):
+def is_digit(index):
     """Determines if a character is a digit.
 
     :char: char - a normalised (lowercase) charachter.
     """
-    return ascii_0 <= ord(char) < ascii_0 + 10
+    return ascii_0 <= ord(state['sentence'][index]) < ascii_0 + 10
 
 
-def is_apostrophe(char):
+def is_apostrophe(index):
     """Determines if a character is an apostrophe.
 
     :char: char - a normalised (lowercase) charachter.
     """
-    return ascii_apostrophe == ord(char)
+    return ascii_apostrophe == ord(state['sentence'][index])
 
 
 def count_words(sentence):
@@ -54,14 +54,13 @@ def count_words(sentence):
     Words are normalised to lowercase. A word can either be a sequence of digits,
     a sequence of letters or a sequence of letters that contains a single apostrophe.
     """
-
     init_state(sentence)
-    for i, next_char in enumerate(state['sentence']):
-        if is_letter(next_char):
+    for i in range(0, len(state['sentence'])):
+        if is_letter(i):
             visit_letter(i)
-        elif is_digit(next_char):
+        elif is_digit(i):
             visit_digit(i)
-        elif is_apostrophe(next_char):
+        elif is_apostrophe(i):
             visit_apostrophe(i)
         else:
             visit_non_word(i)
@@ -96,7 +95,7 @@ def visit_apostrophe(index):
     :index: int - the index of the apostrophe character in the state's sentence.
     """
     if state['in_word']:
-        if index+1 < len(state['sentence']) and (is_letter(state['sentence'][index+1])):
+        if index+1 < len(state['sentence']) and (is_letter(index+1)):
             state.update({'apostrophe': True})
         else:
             add_word(index-1)
@@ -122,5 +121,3 @@ def add_word(index):
     word_count = state['words'].get(word, 0) + 1
     state['words'].update({word: word_count})
     state.update({'in_word': False, 'in_number': False, 'apostrophe': False})
-
-count_words("can, can't, 'can't'")
