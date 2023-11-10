@@ -15,32 +15,32 @@ def init_state(sentence):
         'in_word': False,
         'apostrophe': False,
         'in_number': False,
-        'first_char': 0,
+        'first_char_in_word': 0,
         'words': {},
         'sentence': sentence.lower()
     })
 
 
 def is_letter(index):
-    """Determines if a character is a letter.
+    """Determines if a character in the current sentence is a letter.
 
-    :char: char - a normalised (lowercase) charachter.
+    :index: int - the index of the character to check
     """
     return ascii_a <= ord(state['sentence'][index]) < ascii_a + 26
 
 
 def is_digit(index):
-    """Determines if a character is a digit.
+    """Determines if a character in the current sentence is a digit.
 
-    :char: char - a normalised (lowercase) charachter.
+    :index: int - the index of the character to check
     """
     return ascii_0 <= ord(state['sentence'][index]) < ascii_0 + 10
 
 
 def is_apostrophe(index):
-    """Determines if a character is an apostrophe.
+    """Determines if a character in the current sentence is an apostrophe.
 
-    :char: char - a normalised (lowercase) charachter.
+    :index: int - the index of the character to check
     """
     return ascii_apostrophe == ord(state['sentence'][index])
 
@@ -75,7 +75,7 @@ def visit_letter(index):
     :index: int - the index of the letter character in the state's sentence.
     """
     if not state['in_number'] and not state['in_word']:
-        state.update({'in_word': True, 'first_char': index})
+        state.update({'in_word': True, 'first_char_in_word': index})
     state.update({'in_number': False})
 
 
@@ -85,7 +85,7 @@ def visit_digit(index):
     :index: int - the index of the digit character in the state's sentence.
     """
     if not state['in_number'] and not state['in_word']:
-        state.update({'in_number': True, 'first_char': index})
+        state.update({'in_number': True, 'first_char_in_word': index})
     state.update({'in_word': False})
 
 
@@ -117,7 +117,7 @@ def add_word(index):
 
     :index: int - the index of the last character of the newly-found word.
     """
-    word = state['sentence'][state['first_char']:index+1]
+    word = state['sentence'][state['first_char_in_word']:index+1]
     word_count = state['words'].get(word, 0) + 1
     state['words'].update({word: word_count})
     state.update({'in_word': False, 'in_number': False, 'apostrophe': False})
