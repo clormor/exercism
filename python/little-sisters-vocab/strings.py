@@ -8,7 +8,7 @@ def add_prefix_un(word):
     :return: str - of root word prepended with 'un'.
     """
 
-    return f"un{word}"
+    return f'un{word}'
 
 
 def make_word_groups(vocab_words):
@@ -28,7 +28,7 @@ def make_word_groups(vocab_words):
 
     words=[vocab_words[0]]
     for word in vocab_words[1:]:
-        words.append('%s%s' % (vocab_words[0], word))
+        words.append(f'{vocab_words[0]}{word}')
     return ' :: '.join(words)
 
 
@@ -43,7 +43,7 @@ def remove_suffix_ness(word):
 
     word = word[:-4]
     if word[-1] == 'i':
-        return f"{(word[:-1])}y"
+        return f'{(word[:-1])}y'
     return word
 
 
@@ -57,4 +57,4 @@ def adjective_to_verb(sentence, index):
     For example, ("It got dark as the sun set.", 2) becomes "darken".
     """
 
-    return f"{sentence.split(' ')[index].replace('.', '')}en"
+    return f'{sentence.split(" ")[index].replace(".", "")}en'
