@@ -58,7 +58,14 @@ def student_ranking(student_scores, student_names):
     :return: list - of strings in format ["<rank>. <student name>: <score>"].
     """
 
-    pass
+    sorted_student_scores = list(map(
+            lambda x: f'{x[0]}: {x[1]}',
+            sorted(zip(student_names, student_scores), key=lambda x: x[1], reverse=True)))
+
+    return list(map(
+            lambda rank, student_score: f'{rank+1}. {student_score}',
+            range(0, len(sorted_student_scores)),
+            sorted_student_scores))
 
 
 def perfect_score(student_info):
@@ -68,4 +75,7 @@ def perfect_score(student_info):
     :return: list - first `[<student name>, 100]` or `[]` if no student score of 100 is found.
     """
 
-    pass
+    perfect_scores = list(filter(lambda x: x[1] == 100, student_info))
+    if not perfect_scores:
+        return []
+    return perfect_scores[0]
