@@ -56,4 +56,4 @@ def clean_up(combined_record_group):
     (see HINTS.md for an example).
     """
 
-    return "".join(f"('{r[0]}', '{r[2]}', {r[3]}, '{r[4]}')\n" for r in combined_record_group)
+    return "".join(f"{str(record[:1] + record[2:])}\n" for record in combined_record_group)
